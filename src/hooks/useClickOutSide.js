@@ -6,6 +6,7 @@ export const useComponentVisible = (initialIsVisible, refArray) => {
     useState(initialIsVisible);
   const ref = useRef(null);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleClickOutside = (event) => {
     if (
       ref.current &&
@@ -21,7 +22,7 @@ export const useComponentVisible = (initialIsVisible, refArray) => {
     return () => {
       document.removeEventListener("click", handleClickOutside, true);
     };
-  }, [ref, refArray]);
+  }, [handleClickOutside, ref, refArray]);
 
   return { ref, isComponentVisible, setIsComponentVisible };
 };

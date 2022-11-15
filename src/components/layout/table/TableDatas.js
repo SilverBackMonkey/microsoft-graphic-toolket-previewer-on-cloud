@@ -1,3 +1,5 @@
+import { fileDownloadLink } from "../../../utils/constant";
+
 export const FileTableColumns = [
     { columnKey: "file", label: "File", width: "50px" },
     { columnKey: "title", label: "Title", width: "300px" },
@@ -6,4 +8,4 @@ export const FileTableColumns = [
     { columnKey: "share", label: "Share", width: "30px" },
   ];
 
-export const FileDownloadAsset = "@microsoft.graph.downloadUrl";
+export const FileDownloadAsset = fileDownloadLink;

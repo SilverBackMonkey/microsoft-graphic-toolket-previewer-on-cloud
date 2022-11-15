@@ -32,7 +32,7 @@
   max-width: 1200px;
   padding: 0px 15px;
   margin: 0 auto;
-  background-color: rgb(246, 246, 246);
+  /* background-color: rgb(246, 246, 246); */
 }
 
 @keyframes App-logo-spin {
@@ -44,69 +44,6 @@
   }
 }
 
-/*  custom grid  */
-/* created by dancing */
-@mixin flUI-span($span, $start: auto, $row: auto) {
-  grid-column: $start / span $span;
-  grid-row: $row;
-  /* media query for small devices */
-  @media screen and (max-width: 480px){
-    grid-column: 1 / span 12;
-    grid-row: auto;
-  }
-}
-
-@function px-to-rem($pixel) {
-  @return ($pixel / 16) * 1rem;
-}
-
-%gridContainer {
-  box-sizing: border-box;
-  padding: 1em;
-  display: flex;
-  justify-content: center;
-  background-color: silver;
-}
-
 h1 {
   font-family: sans-serif;
-}
-
-.fl-grid {
-  font-family: sans-serif;
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  margin: auto px-to-rem(8);
-
-  /* > 1366 pixel */
-  column-gap: px-to-rem(32);
-  row-gap: px-to-rem(32);
-  /* < 1366 pixel */
-  @media screen and (max-width: 1366px) {
-    column-gap: px-to-rem(24);
-    row-gap: px-to-rem(24);
-  }
-  /* <= 640 pixel */
-  @media screen and (max-width: 640px) {
-    column-gap: px-to-rem(16);
-    row-gap: px-to-rem(16);
-  }
-}
-
-.fl-span12 {
-  @extend %gridContainer;
-  @include flUI-span(12);
-}
-.fl-span4{
-  @extend %gridContainer;
-  @include flUI-span(4);
-}
-
-.fl-span8{
-  @extend %gridContainer;
-  @include flUI-span(8);
-}
-.fl-span6c{
-  @extend %gridContainer;
-    @include flUI-span(6, 4, 3);
 }

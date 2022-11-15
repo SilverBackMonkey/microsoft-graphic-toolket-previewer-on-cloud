@@ -15,27 +15,31 @@ import {
     MenuPopover,
     MenuList,
     MenuItem,
-    Link,
   } from "@fluentui/react-components";
   import * as React from "react";
-  
+  import {saveAs} from "file-saver";
   import {
-    Open16Regular,
+    ArrowDownload16Regular,
     MoreHorizontal24Filled
   } from "@fluentui/react-icons";
   import { getThumbnail} from "../../../utils/FileLogos";
 import FilePreviewer from "./FilePreviewer";
-import { FileDownloadAsset } from "../table/TableDatas";
 
+import {} from '@fluentui/react-icons'
+import { downloadFile } from "../../../utils/SPFileManager";
+import OpenDialogViewer from "./drivers/DialogViewer";
+import { fileDownloadLink } from "../../../utils/constant";
   const useStyles = makeStyles({
   
     description: {
-      ...shorthands.margin(0, 0, "12px"),
+      ...shorthands.margin("12px", 0, "12px"),
     },
   
     card: {
-      width: "393px",
+      width: "380px",
       height: "380px",
+      marginTop:"10px",
+      marginLeft: "6px",
     },
 
     text: {
@@ -47,18 +51,23 @@ import { FileDownloadAsset } from "../table/TableDatas";
 export  const CardFile = (props) => {
     const styles = useStyles();
     let {file} = props;
-    const logo = getThumbnail(file);
+    const FileLog = getThumbnail(file);
+    const openFile = (e) => {
+      e.preventDefault();
+
+      saveAs(
+        file?.webUrl,
+        file?.name
+      );
+    }
     return (
-      <Card className={styles.card} {...props}>
+        <Card className={styles.card} {...props}>
+
         <FilePreviewer file={file} />
         <CardHeader
           image={
-            <img
-                width={30}
-                height={30}
-              src={logo}
-              alt="Microsoft PowerPoint logo"
-            />
+            // eslint-disable-next-line jsx-a11y/alt-text
+            <img src={FileLog} width="25px" height="25px"/>
           }
           header={
             <Body1>
@@ -74,27 +83,13 @@ export  const CardFile = (props) => {
                 </MenuTrigger>
                 <MenuPopover>
                   <MenuList>
-                    <MenuItem>                      
-                      <Link
-                          to={file['webUrl']}
-                          target="_blank"
-                          className="file__download"
-                        >
+                    <MenuItem onClick={(e)=>openFile(e)}>                      
                           {/* <img src={downloadImage} alt="download" width={20} /> */}
-                          Open<i className="fa fa-download"></i>
-                      </Link>
+                          Open
                     </MenuItem>
-                    <MenuItem>
-                      <Link
-                        to={file[FileDownloadAsset]}
-                        target="_blank"
-                        className="file__download"
-                      >
-                        {/* <img src={downloadImage} alt="download" width={20} /> */}
-                        Download<i className="fa fa-download"></i>
-                      </Link>
+                    <MenuItem onClick={(e) => downloadFile(file[fileDownloadLink])}>
+                        Download
                     </MenuItem>
-                    <MenuItem>Upload</MenuItem>
                   </MenuList>
                 </MenuPopover>
               </Menu>
@@ -103,24 +98,11 @@ export  const CardFile = (props) => {
         />
   
         <CardFooter>
-          <Link
-              to={file['webUrl']}
-              target="_blank"
-              className="file__download"
-            >
-              {/* <img src={downloadImage} alt="download" width={20} /> */}
-              <Button appearance="primary" icon={<Open16Regular />}>
-                Open
-            </Button>
-          </Link>
-          <Link
-              to={file[FileDownloadAsset]}
-              target="_blank"
-              className="file__download"
-            >
-              {/* <img src={downloadImage} alt="download" width={20} /> */}
-              <Button ><img width={20} height={20} src="/download.png"/> Download</Button>
-            </Link>
+              <OpenDialogViewer file={file} />
+              <Button icon={<ArrowDownload16Regular />} onClick={(e) => downloadFile(file[fileDownloadLink])}>
+                  Download
+              </Button>
+            
         </CardFooter>
       </Card>
     );

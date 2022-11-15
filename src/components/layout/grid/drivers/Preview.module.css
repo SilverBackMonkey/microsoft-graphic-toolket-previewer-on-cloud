@@ -1,0 +1,13 @@
+.preview-iframe {
+    width: 360px;
+    height: 260px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .preview-iframe body {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}

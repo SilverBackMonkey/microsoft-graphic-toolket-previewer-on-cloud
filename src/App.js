@@ -7,6 +7,7 @@ import { ProxyProvider } from "@microsoft/mgt-proxy-provider";
 import { checkProxy } from "wp-webcomponent";
 
 import FileLayout from "./FileLayout";
+import { driveId, fileNextLink, initItemId, parentLink, proxyDomain } from "./utils/constant";
 
 /** Set Files */
 export const FilesResponse = (props) => {
@@ -23,16 +24,16 @@ function App(props) {
   const [FilesData, setFilesData] = useState([]);
   const [NextLink, setNextLink] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [itemId, setItemId] = useState("015FCMOUQW6TXD7STWXZEJYSNTOHMKPEW7");
-
+  const [itemId, setItemId] = useState(initItemId);
   /** Get Next link based on response */
-  const serverProxyDomain = "https://walrus-app-v3k99.ondigitalocean.app/proxy/63e4ce5542771d5254e2525c";
+  const serverProxyDomain = proxyDomain;
   useEffect(() => {
+    debugger
     const MgtFilesData = document.querySelector("mgt-file-list");
     MgtFilesData.addEventListener("templateRendered", (e) => {
-      if (e.target.pageIterator._nextLink != undefined) {
-        setNextLink(e.target.pageIterator._nextLink);
-      }
+      // if (e.target.pageIterator._nextLink != undefined) {
+      setNextLink(e.target.pageIterator._nextLink);
+      // }
     });
 
     if (serverProxyDomain) {
@@ -43,18 +44,18 @@ function App(props) {
         scopes: ["Sites.FullControl.All", "Sites.Read.All", "Files.Read.All"],
       });
     }
-  }, [serverProxyDomain, props.clientId]);
+  }, [itemId, props.clientId, serverProxyDomain]);
  
 
   /** Getting data based on next link url and changing url with proxy domain */
   const GetData = useCallback(() => {
+    debugger;
     setLoading(true);
     if (NextLink != undefined && NextLink != "") {
       const newlink = NextLink.replace(
-        "https://graph.microsoft.com",
+        parentLink,
         serverProxyDomain
       );
-
       const Data = fetch(newlink, {
         method: "GET",
         headers: {
@@ -66,17 +67,16 @@ function App(props) {
         .then((data) => {
           setLoading(false);
           setFilesData([...FilesData, ...data.value]);
-          setNextLink(data["@odata.nextLink"]);
+          setNextLink(data[fileNextLink]);
         });
     }
-  }, [NextLink, FilesData, serverProxyDomain]);
-  
+  }, [NextLink, serverProxyDomain, FilesData]);
   return (
     <div className="main-container">
       <h1>{props.title ?? "Files List"}</h1>
       <Login />
       <FileList
-        driveId="b!u437h9hN5kKKuYv4KxMZ9edZk038P2JOh0O-CbQrkFl3rjkpSNnESL7EuydJmf86"
+        driveId={driveId}
         itemId={itemId}
       >
         <FilesResponse setFilesData={setFilesData} setLoading={setLoading} />
@@ -98,14 +98,53 @@ function App(props) {
   );
 }
 
-
 export const Definition = [
   {
-    zone: "appearances",
-    component: "HeadingColorAndSize",
-    name: ["headingColor", "headingSize"],
+    zone: "Content",
+    component: "TextBox",
+    name: "widgetTitle",
+    displayName: "widget title",
+    title: "Widget Title",
+  },
+  {
+    zone: "Content",
+    component: "FILES",
+    name: "files",
+    displayName: "FILES",
+  },
+  {
+    zone: "layout",
+    component: "ComponentLayout",
+    name: ["layout", "layoutSpacing"],
+    enum: ["File Viewer", "List", "Grid"],
+  },
+  {
+    zone: "layout",
+    component: "FileIcon",
+    name: "fileIcon",
     createSeparateSection: true,
-    title: "Heading",
+    title: "File Icon",
+  },
+  {
+    zone: "layout",
+    component: "SizeSlider",
+    name: "previewImageSize",
+    createSeparateSection: true,
+    title: "Preview Image",
+  },
+  {
+    zone: "layout",
+    component: "DownLoadSetting",
+    name: "ShowDownloadLink",
+    createSeparateSection: true,
+    title: "Download Setting",
+  },
+  {
+    zone: "layout",
+    component: "TextBox",
+    name: "previewWidth",
+    createSeparateSection: true,
+    title: "Width",
   },
   {
     zone: "appearances",
@@ -130,102 +169,12 @@ export const Definition = [
     title: "Background Type",
   },
   {
-    zone: "layout",
-    component: "ComponentLayout",
-    name: ["layout", "layoutSpacing"],
-    enum: ["list", "grid", "masonry"],
+    zone: "appearances",
+    component: "HeadingColorAndSize",
+    name: ["headingColor", "headingSize"],
+    createSeparateSection: true,
+    title: "Heading",
   },
-  {
-    component: "TextBox",
-    name: "query",
-    displayName: "Query",
-  },
-  {
-    component: "TextBox",
-    name: "siteid",
-    displayName: " Site Id",
-  },
-  {
-    component: "TextBox",
-    name: "driveid",
-    displayName: " Drive Id",
-  },
-  {
-    component: "TextBox",
-    name: "itemid",
-    displayName: " Item Id",
-  },
-  {
-    component: "TextBox",
-    name: "listid",
-    displayName: " List Id",
-  },
-  {
-    component: "TextBox",
-    name: "listname",
-    displayName: " List Name",
-  },
-  {
-    component: "TextBox",
-    name: "maxresults",
-    displayName: " Max Results",
-  },
-  {
-    component: "TextBox",
-    name: "pagination",
-    displayName: " Pagination",
-  },
-  {
-    component: "TextBox",
-    name: "sort",
-    displayName: "Sort",
-  },
-  {
-    component: "TextBox",
-    name: "columns",
-    displayName: " Columns",
-  },
-  {
-    component: "TextBox",
-    name: "lookups",
-    displayName: " Lookups",
-  },
-  {
-    component: "TextBox",
-    name: "searchparam",
-    displayName: " Search Param",
-  },
-  {
-    component: "TextBox",
-    name: "includefile",
-    displayName: " Include File",
-  },
-  {
-    component: "TextBox",
-    name: "folderurl",
-    displayName: " Folder Url",
-  },
-  {
-    component: "TextBox",
-    name: "folderid",
-    displayName: " Folder Id",
-  },
-  {
-    component: "TextBox",
-    name: "autoloadresult",
-    displayName: " Auto Load Result",
-  },
-  {
-    component: "TextBox",
-    name: "searchform",
-    displayName: " Search Form",
-  },
-  {
-    component: "TextBox",
-    name: "autocomplete",
-    displayName: " Auto Complete",
-  }
- 
 ];
 
 export default App;

@@ -1,14 +1,20 @@
 import React from 'react';
 import style from "../../../FileLayout.module.css";
 import { getThumbnail } from '../../../utils/FileLogos';
-import downloadImage from "../../../assets/download.png";
 import linkImage from "../../../assets/link.png";
 import copyImage from "../../../assets/copy.png";
 import tickImage from "../../../assets/tick.png";
-import {Link, Table, TableHeader, TableRow, TableHeaderCell, TableBody, TableCell, TableCellLayout, ToggleButton } from '@fluentui/react-components';
+import { Table, TableHeader, TableRow, TableHeaderCell, TableBody, TableCell, TableCellLayout, ToggleButton, Button } from '@fluentui/react-components';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { FileDownloadAsset, FileTableColumns } from './TableDatas';
+import { downloadFile } from '../../../utils/SPFileManager';
+import {
+  ArrowDownload16Regular,
+} from "@fluentui/react-icons";
+import { TableCellPreview } from './TableCellPreview';
+import { fileDownloadLink } from '../../../utils/constant';
+import { DocPreview } from '../grid/drivers/DocPreview';
 
 export default function TableLayout(props) {
     const columns = FileTableColumns;
@@ -16,19 +22,15 @@ export default function TableLayout(props) {
       const showDownloadLink = (file) => {
         if (file?.[FileDownloadAsset]) {
           return (
-            <Link
-              to={file[FileDownloadAsset]}
-              target="_blank"
-              className="file__download"
-            >
-              {/* <img src={downloadImage} alt="download" width={20} /> */}
-              Download<i className="fa fa-download"></i>
-            </Link>
+          <Button icon={<ArrowDownload16Regular />} onClick={(e) => downloadFile(file[fileDownloadLink])}>
+            Download
+          </Button>
           );
         }
       };
 
-    let {searchResults, files, loading, handleItemClick, handleLinkShare, openFolder, openBox, isComponentVisible, NextLink, GetData, ref, textareaRef} = props;
+    let {searchResults, files, loading, handleItemClick, handleLinkShare, openFolder, openBox, isComponentVisible, NextLink, GetData, openBoxRef, textareaRef} = props;
+
     return (
         <>
 
@@ -101,7 +103,13 @@ export default function TableLayout(props) {
                           </TableCellLayout>
                         </TableCell>
                         <TableCell>
-                          <TableCellLayout></TableCellLayout>
+                          <TableCellLayout className={style.horizontalCenter}>
+                            {
+                              file?.[fileDownloadLink] &&
+                                // <TableCellPreview file={file} />
+                                <DocPreview file={file} />
+                            }
+                          </TableCellLayout>
                         </TableCell>
                         <TableCell id="linkSharing">
                           <TableCellLayout id="linkSharing" className={style.horizontalCenter}>
@@ -112,7 +120,7 @@ export default function TableLayout(props) {
                                 alt="link"
                                 width={20}
                               />
-                              <div ref={ref}>
+                              <div ref={openBoxRef}>
                                 {openBox === index && isComponentVisible && (
                                   <div
                                     className={`${style.linkModalContainer} ${style.active}`}
@@ -129,8 +137,8 @@ export default function TableLayout(props) {
                                       <img
                                         src={copyImage}
                                         alt="copy"
-                                        width={20}
-                                      />
+                                        onClick={navigator.clipboard.writeText(file?.[FileDownloadAsset])}
+                                        width={20} />
                                     </div>
                                     <textarea
                                       ref={textareaRef}
@@ -142,8 +150,8 @@ export default function TableLayout(props) {
                                       className={style.textArea}
                                       value={
                                         file?.[FileDownloadAsset]
-                                      }
-                                    ></textarea>
+                                      }>
+                                    </textarea>
                                   </div>
                                 )}
                               </div>
