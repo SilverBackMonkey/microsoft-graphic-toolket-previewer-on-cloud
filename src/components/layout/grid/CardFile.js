@@ -27,7 +27,6 @@ import {
 import FilePreviewer from "./FilePreviewer";
 import { FileDownloadAsset } from "../table/TableDatas";
 
-  
   const useStyles = makeStyles({
   
     description: {
@@ -50,12 +49,7 @@ export  const CardFile = (props) => {
     let {file} = props;
     const logo = getThumbnail(file);
     return (
-        <Card className={styles.card} {...props}>
-          {/* <img width="326px" height="300px"
-            src={file.webUrl}
-            alt={file.name}
-          /> */}
-        {/* <DocPreview /> */}
+      <Card className={styles.card} {...props}>
         <FilePreviewer file={file} />
         <CardHeader
           image={
