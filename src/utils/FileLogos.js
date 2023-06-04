@@ -15,7 +15,6 @@ if (file?.folder) {
     return "/filetypes/folder.png";
     } else if (file?.file) {
     const imagetype = getFileType(file.file.mimeType);
-    console.log("this is filetype...", imagetype);
     return `/filetypes/${imagetype}.png`;
     } else if (file.package.type === "oneNote") {
     return "/filetypes/text.png";
@@ -27,6 +26,7 @@ if (file?.folder) {
 export  const getFileType = (type) => {
     const filetypes = {
     "image/jpeg": "photo",
+    "image/jpg": "photo",
     "text/plain": "txt",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
         "docx",

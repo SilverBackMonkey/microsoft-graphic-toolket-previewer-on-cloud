@@ -24,12 +24,12 @@ const FileLayout = (props) => {
   
   const textareaRef = useRef(null);
   
-  
+  const [openBox, setOpenBox] = useState(-1);
+
   // toggle grid view and table view
   function _onChange(e, checked) {
     setShowGridView(checked?.checked);
   }
-  const [openBox, setOpenBox] = useState(-1);
   const { ref, isComponentVisible, setIsComponentVisible } =
     useComponentVisible(false, [textareaRef]);
 

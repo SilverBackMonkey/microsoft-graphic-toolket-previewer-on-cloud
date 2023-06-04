@@ -4,15 +4,10 @@ import {
     Button,
     Caption1,
     Body1,
-    Subtitle1,
     Card,
     CardHeader,
     CardFooter,
-    CardPreview,
-    CardProps,
-    Text,
-    mergeClasses,
-    Badge,
+
     Toolbar,
     ToolbarButton,
     Menu,
@@ -20,34 +15,30 @@ import {
     MenuPopover,
     MenuList,
     MenuItem,
-    ToolbarProps
+    Link,
   } from "@fluentui/react-components";
   import * as React from "react";
   
   import {
-    MoreHorizontal20Filled,
     Open16Regular,
-    Share16Regular,
     MoreHorizontal24Filled
   } from "@fluentui/react-icons";
-  import { getFileType, getThumbnail, jpgLogo } from "../../../utils/FileLogos";
-  import { DocPreview } from "./PreviewFileTypes/DocPreview";
+  import { getThumbnail} from "../../../utils/FileLogos";
 import FilePreviewer from "./FilePreviewer";
 import { FileDownloadAsset } from "../table/TableDatas";
+
   
   const useStyles = makeStyles({
-    title: {
-      ...shorthands.margin(0, 0, "12px"),
-    },
   
     description: {
       ...shorthands.margin(0, 0, "12px"),
     },
   
     card: {
-      width: "350px",
-      height: "300px",
+      width: "393px",
+      height: "380px",
     },
+
     text: {
       ...shorthands.margin(0),
     },
@@ -60,12 +51,12 @@ export  const CardFile = (props) => {
     const logo = getThumbnail(file);
     return (
         <Card className={styles.card} {...props}>
-          <img width="326px" height="300px"
+          {/* <img width="326px" height="300px"
             src={file.webUrl}
             alt={file.name}
-          />
+          /> */}
         {/* <DocPreview /> */}
-        {/* <FilePreviewer file={file} /> */}
+        <FilePreviewer file={file} />
         <CardHeader
           image={
             <img
@@ -89,8 +80,26 @@ export  const CardFile = (props) => {
                 </MenuTrigger>
                 <MenuPopover>
                   <MenuList>
-                    <MenuItem>Open</MenuItem>
-                    <MenuItem>Download</MenuItem>
+                    <MenuItem>                      
+                      <Link
+                          to={file['webUrl']}
+                          target="_blank"
+                          className="file__download"
+                        >
+                          {/* <img src={downloadImage} alt="download" width={20} /> */}
+                          Open<i className="fa fa-download"></i>
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link
+                        to={file[FileDownloadAsset]}
+                        target="_blank"
+                        className="file__download"
+                      >
+                        {/* <img src={downloadImage} alt="download" width={20} /> */}
+                        Download<i className="fa fa-download"></i>
+                      </Link>
+                    </MenuItem>
                     <MenuItem>Upload</MenuItem>
                   </MenuList>
                 </MenuPopover>
@@ -100,10 +109,24 @@ export  const CardFile = (props) => {
         />
   
         <CardFooter>
-          <Button appearance="primary" icon={<Open16Regular />}>
-            Open
-          </Button>
-          <Button ><img width={20} height={20} src="/download.png"/> Download</Button>
+          <Link
+              to={file['webUrl']}
+              target="_blank"
+              className="file__download"
+            >
+              {/* <img src={downloadImage} alt="download" width={20} /> */}
+              <Button appearance="primary" icon={<Open16Regular />}>
+                Open
+            </Button>
+          </Link>
+          <Link
+              to={file[FileDownloadAsset]}
+              target="_blank"
+              className="file__download"
+            >
+              {/* <img src={downloadImage} alt="download" width={20} /> */}
+              <Button ><img width={20} height={20} src="/download.png"/> Download</Button>
+            </Link>
         </CardFooter>
       </Card>
     );

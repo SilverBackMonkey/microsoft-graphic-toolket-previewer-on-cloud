@@ -21,8 +21,8 @@ export default function TableLayout(props) {
               target="_blank"
               className="file__download"
             >
-              <img src={downloadImage} alt="download" width={20} />
-              {/* Download<i className="fa fa-download"></i> */}
+              {/* <img src={downloadImage} alt="download" width={20} /> */}
+              Download<i className="fa fa-download"></i>
             </Link>
           );
         }
@@ -73,7 +73,6 @@ export default function TableLayout(props) {
               ) : (
                 (searchResults?.length > 0 ? searchResults : files).map(
                   (file, index) => (
-                    <>
                       <TableRow
                         key={index}
                         onClick={(e) => handleItemClick(file, e)}
@@ -152,7 +151,6 @@ export default function TableLayout(props) {
                           </TableCellLayout>
                         </TableCell>
                       </TableRow>
-                    </>
                   )
                 )
               )}

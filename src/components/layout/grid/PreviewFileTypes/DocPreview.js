@@ -27,40 +27,21 @@ export const DocPreview = (props) => {
   const onError = (e) => {
     console.log(e)
   };
-  console.log(props, file);
-  console.log("here is the docpreview", type);
-  // const Preview = () => {
-  //   console.log("this is before download assest");
-  //   if(file?.[FileDownloadAsset]) {
+  console.log(file);
   
-  //     const filePath = file[FileDownloadAsset];
-      
-  //     console.log("this is filepath" ,filePath);
-  //     if(type == "video") {
-  //       return <video src={filePath}/>
-  //     }
-  //     if(type == "photo") {
-  //       return <img src={filePath} alt="" />
-  //     }
-  //     if(type == "docx" || type == "pdf" || type == "xlsx") {
-  //       return <FileViewer
-  //       fileType={type}
-  //       filePath={file}
-  //       errorComponent={CustomErrorComponent}
-  //       onError={onError}
-  //     />
-  //     }
-  //   }
-  //   return <img src="/filetypes/unknownFile.png" />
-  //   ;
-  // }
   return (
     <>
-      <FileViewer
+      {/* <FileViewer
         fileType={type}
-        filePath={file}
+        filePath={file.webUrl}
         errorComponent={CustomErrorComponent}
         onError={onError}
-      />    </>
+      />     */}
+      <iframe src="https://dwsnow.sharepoint.com/_layouts/15/Doc.aspx?sourcedoc=%7B53DA9ABA-BD2B-41D3-8225-D2D94EA90F02%7D&file=Document.docx&action=default&mobileredirect=true"
+        width="368px"
+        height="180px"
+        frameborder="0">
+      </iframe>
+      </>
   );
 };
