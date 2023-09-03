@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
 import style from "./FileLayout.module.css";
-import downloadImage from "./assets/download.png";
 import { useComponentVisible } from "./hooks/useClickOutSide";
 import "@microsoft/mgt-components";
 import {
