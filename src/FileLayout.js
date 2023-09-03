@@ -45,7 +45,7 @@ const FileLayout = (props) => {
       );
     }
   };
-
+  // when click tablecell item...
   const openFolder = (file) => {
     if (file?.folder) {
       // console.log("file", file);
