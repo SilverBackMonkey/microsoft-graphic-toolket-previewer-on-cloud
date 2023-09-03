@@ -16,7 +16,7 @@ import { downloadFile } from "./utils/SPFileManager";
 import { fileDownloadLink, initItemId } from "./utils/constant";
 const FileLayout = (props) => {
   const [searchResults, setSearchResults] = useState([]);
-  //test
+
   const [breadcrumbs, setBreadcrumbs] = useState([
     { name: "Home", itemId: initItemId},
   ]);
